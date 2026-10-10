@@ -1,0 +1,274 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Steam/lobbychar/sprites/lobbychar.png" type="Texture" id=2]
+[ext_resource path="res://theme.tres" type="Theme" id=3]
+[ext_resource path="res://Player.gd" type="Script" id=4]
+[ext_resource path="res://mechanics/StateMachine.gd" type="Script" id=5]
+[ext_resource path="res://Steam/lobbychar/WaitLobby.gd" type="Script" id=6]
+[ext_resource path="res://Steam/lobbychar/MoveBackLobby.gd" type="Script" id=7]
+[ext_resource path="res://Steam/lobbychar/MoveLobby.gd" type="Script" id=8]
+[ext_resource path="res://Steam/lobbychar/Down.gd" type="Script" id=9]
+[ext_resource path="res://Steam/lobbychar/Up.gd" type="Script" id=10]
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 112, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 126, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 140, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 154, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 56, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 70, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 84, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 98, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 14, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 28, 0, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 1
+atlas = ExtResource( 2 )
+region = Rect2( 42, 0, 14, 16 )
+
+[sub_resource type="SpriteFrames" id=15]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "Backward",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "Forward",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 17 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"loop": true,
+"name": "Side",
+"speed": 5.0
+} ]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform vec4 source_color = vec4(1.0);
+uniform float width : hint_range(0, 10) = 1.0;
+uniform int pattern : hint_range(0, 2) = 0; // diamond, circle, square
+uniform bool inside = false;
+uniform bool add_margins = true; // only useful when inside is false
+uniform vec2 number_of_images = vec2(1.0); // number of horizontal and vertical images in the sprite sheet
+
+varying flat vec4 modulate;
+
+void vertex() {
+	modulate = COLOR;
+	
+	if (add_margins) {
+		if ((UV.x <= 0.0 || UV.x >= 1.0) && (UV.y <= 0.0 || UV.y >= 1.0)) {
+			VERTEX += (UV * 2.0 - 1.0) * width;
+		} else {
+			VERTEX += sign(VERTEX) * width; // replace sign(VERTEX) by (sign(VERTEX) * 2.0 - 1.0) if your AnimatedSprite2D isn't Centered
+		}
+	}
+}
+
+bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, vec2 image_top_left, vec2 image_bottom_right, sampler2D texture) {
+	for (float i = -ceil(width); i <= ceil(width); i++) {
+		float x = abs(i) > width ? width * sign(i) : i;
+		float offset;
+		
+		if (pattern == 0) {
+			offset = width - abs(x);
+		} else if (pattern == 1) {
+			offset = floor(sqrt(pow(width + 0.5, 2) - x * x));
+		} else if (pattern == 2) {
+			offset = width;
+		}
+		
+		for (float j = -ceil(offset); j <= ceil(offset); j++) {
+			float y = abs(j) > offset ? offset * sign(j) : j;
+			vec2 xy = uv + texture_pixel_size * vec2(x, y);
+			
+			if ((xy != clamp(xy, image_top_left, image_bottom_right) || texture(texture, xy).a <= 0.0) == inside) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+void fragment() {
+	vec2 uv = UV;
+	vec2 image_top_left = floor(uv * number_of_images) / number_of_images;
+	vec2 image_bottom_right = image_top_left + vec2(1.0) / number_of_images;
+	
+	if (add_margins) {
+		vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(width * 2.0) * number_of_images);
+		
+		uv = (uv - texture_pixel_size * width - image_top_left) * TEXTURE_PIXEL_SIZE / texture_pixel_size + image_top_left;
+		
+		if (uv != clamp(uv, image_top_left, image_bottom_right)) {
+			COLOR.a = 0.0;
+		} else {
+			COLOR = texture(TEXTURE, uv) * modulate;
+		}
+	} else {
+		COLOR = texture(TEXTURE, uv) * modulate;
+	}
+	
+	if ((COLOR.a > 0.0) == inside && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, image_top_left, image_bottom_right, TEXTURE)) {
+		COLOR.rgb = inside ? mix(COLOR.rgb, source_color.rgb * modulate.rgb, source_color.a * modulate.a) : source_color.rgb * modulate.rgb;
+		COLOR.a += (1.0 - COLOR.a) * source_color.a * modulate.a;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 2 )
+shader_param/source_color = Plane( 1, 1, 1, 1 )
+shader_param/width = 1.0
+shader_param/pattern = 0
+shader_param/inside = false
+shader_param/add_margins = true
+shader_param/number_of_images = Vector2( 1, 1 )
+
+[node name="Player" type="Node2D"]
+scale = Vector2( 3, 3 )
+script = ExtResource( 4 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+unique_name_in_owner = true
+position = Vector2( 7, 26 )
+frames = SubResource( 15 )
+animation = "Forward"
+frame = 1
+offset = Vector2( 0, -18 )
+
+[node name="Avatar" type="TextureRect" parent="."]
+unique_name_in_owner = true
+material = SubResource( 16 )
+margin_left = 4.66667
+margin_top = -9.66667
+margin_right = 14.6667
+margin_bottom = 0.333333
+rect_rotation = 6.3
+theme = ExtResource( 3 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="StateMachine" type="Node2D" parent="."]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+starting_state = "Wait"
+host_node_path = NodePath("..")
+
+[node name="Move" type="Node2D" parent="StateMachine"]
+script = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Side"
+anim_length = 20
+ticks_per_frame = 3
+can_input = true
+
+[node name="MoveBack" type="Node2D" parent="StateMachine"]
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Side"
+anim_length = 20
+ticks_per_frame = 3
+can_input = true
+
+[node name="Down" type="Node2D" parent="StateMachine"]
+script = ExtResource( 9 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Forward"
+anim_length = 20
+ticks_per_frame = 3
+can_input = true
+
+[node name="Up" type="Node2D" parent="StateMachine"]
+script = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Backward"
+anim_length = 20
+ticks_per_frame = 3
+can_input = true
+
+[node name="Wait" type="Node2D" parent="StateMachine"]
+script = ExtResource( 6 )
+reset_momentum = true

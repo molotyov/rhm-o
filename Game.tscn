@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://niche/backround.png" type="Texture" id=2]
+[ext_resource path="res://Game.gd" type="Script" id=3]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="GameCamera" type="Camera2D" parent="."]
+offset = Vector2( 0, -18 )
+current = true
+zoom = Vector2( 0.3, 0.3 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 1, -33 )
+scale = Vector2( 1.24082, 1.25452 )
+z_index = -1000
+texture = ExtResource( 2 )
+
+[node name="Background3" type="Sprite" parent="."]
+position = Vector2( -151, -33 )
+scale = Vector2( 1.24082, 1.25452 )
+z_index = -1000
+texture = ExtResource( 2 )
+
+[node name="Background2" type="Sprite" parent="."]
+position = Vector2( 153, -33 )
+scale = Vector2( 1.24082, 1.25452 )
+z_index = -1000
+texture = ExtResource( 2 )
+
+[node name="Characters" type="Node2D" parent="."]

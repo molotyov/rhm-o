@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://CharSelect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://Steam/Lobby.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Steam/SteamLobbyList.tscn" type="PackedScene" id=4]
+
+[node name="Main" type="Node"]
+script = ExtResource( 2 )
+
+[node name="CharSelect" parent="." instance=ExtResource( 1 )]
+unique_name_in_owner = true
+visible = false
+
+[node name="Game" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="SteamLobby" parent="." instance=ExtResource( 3 )]
+unique_name_in_owner = true
+
+[node name="SteamLobbyList" parent="." instance=ExtResource( 4 )]
+unique_name_in_owner = true
+margin_top = -52.0
+margin_bottom = -52.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 511, 299 )
+offset = Vector2( 2.162, 0 )
+current = true

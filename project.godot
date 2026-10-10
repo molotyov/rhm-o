@@ -1,0 +1,212 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "BaseObj",
+"class": "BaseChar",
+"language": "GDScript",
+"path": "res://characters/base/BaseChar.gd"
+}, {
+"base": "Node2D",
+"class": "BaseObj",
+"language": "GDScript",
+"path": "res://mechanics/BaseObj.gd"
+}, {
+"base": "StateInterface",
+"class": "BaseStateLobby",
+"language": "GDScript",
+"path": "res://characters/base/BaseStateLobby.gd"
+}, {
+"base": "StateInterface",
+"class": "BaseStateO",
+"language": "GDScript",
+"path": "res://characters/base/BaseState.gd"
+}, {
+"base": "Panel",
+"class": "CharacterSelect",
+"language": "GDScript",
+"path": "res://CharSelect.gd"
+}, {
+"base": "Node2D",
+"class": "CollisionBox",
+"language": "GDScript",
+"path": "res://characters/base/CollisionBox.gd"
+}, {
+"base": "EditorProperty",
+"class": "EC_CreateCategory",
+"language": "GDScript",
+"path": "res://addons/export_categories/ec_create_category.gd"
+}, {
+"base": "Reference",
+"class": "FixedMath",
+"language": "GDScript",
+"path": "res://fixed/FixedMath.gd"
+}, {
+"base": "Reference",
+"class": "FixedVec2",
+"language": "GDScript",
+"path": "res://fixed/FixedVec2.gd"
+}, {
+"base": "Reference",
+"class": "FixedVec2String",
+"language": "GDScript",
+"path": "res://fixed/FixedVec2String.gd"
+}, {
+"base": "CollisionBox",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://characters/base/Hitbox.gd"
+}, {
+"base": "CollisionBox",
+"class": "Hurtbox",
+"language": "GDScript",
+"path": "res://characters/base/Hurtbox.gd"
+}, {
+"base": "CollisionBox",
+"class": "HurtboxState",
+"language": "GDScript",
+"path": "res://characters/base/HurtboxState.gd"
+}, {
+"base": "Node",
+"class": "Main",
+"language": "GDScript",
+"path": "res://Main.gd"
+}, {
+"base": "Node2D",
+"class": "StateInterface",
+"language": "GDScript",
+"path": "res://characters/base/StateInterface.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://mechanics/StateMachine.gd"
+}, {
+"base": "AudioStreamPlayer2D",
+"class": "VariableSound2D",
+"language": "GDScript",
+"path": "res://mechanics/Sound.gd"
+}, {
+"base": "Node2D",
+"class": "g",
+"language": "GDScript",
+"path": "res://niche/test.gd"
+}, {
+"base": "Node",
+"class": "u",
+"language": "GDScript",
+"path": "res://niche/utilities.gd"
+} ]
+_global_script_class_icons={
+"BaseChar": "",
+"BaseObj": "",
+"BaseStateLobby": "",
+"BaseStateO": "",
+"CharacterSelect": "",
+"CollisionBox": "res://niche/node_icons1.png",
+"EC_CreateCategory": "",
+"FixedMath": "",
+"FixedVec2": "",
+"FixedVec2String": "",
+"Hitbox": "res://niche/node_icons2.png",
+"Hurtbox": "",
+"HurtboxState": "",
+"Main": "",
+"StateInterface": "",
+"StateMachine": "",
+"VariableSound2D": "",
+"g": "",
+"u": ""
+}
+
+[application]
+
+config/name="RHM-O"
+run/main_scene="res://Main.tscn"
+config/icon="res://characters/jup/sprites/css_icon.png"
+
+[autoload]
+
+U="*res://niche/test.gd"
+SteamR="*res://Steam/Steam.gd"
+SteamLobby="*res://Steam/SteamLobby.gd"
+
+[debug]
+
+settings/fps/force_fps=60
+multirun/number_of_windows=2
+multirun/window_distance=1270
+multirun/add_custom_args=true
+multirun/first_window_args="listen"
+multirun/other_window_args="join"
+
+[display]
+
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/collision/plugin.cfg", "res://addons/draggable_collisionbox/plugin.cfg", "res://addons/export_categories/plugin.cfg", "res://addons/multirun/plugin.cfg" )
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[importer_defaults]
+
+texture={
+"flags/filter": false,
+"flags/mipmaps": true,
+"stream": 0
+}
+
+[input]
+
+Forward={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":68,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Backward={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Crouch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":83,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":87,"unicode":0,"echo":false,"script":null)
+ ]
+}
+test={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[logging]
+
+file_logging/enable_file_logging=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+common/physics_interpolation=true
+
+[rendering]
+
+2d/snapping/use_gpu_pixel_snap=true
+quality/filters/use_nearest_mipmap_filter=true
+environment/default_environment="res://default_env.tres"

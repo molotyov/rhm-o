@@ -1,0 +1,388 @@
+[gd_scene load_steps=41 format=2]
+
+[ext_resource path="res://characters/base/BaseChar.gd" type="Script" id=1]
+[ext_resource path="res://mechanics/StateMachine.gd" type="Script" id=2]
+[ext_resource path="res://characters/base/CollisionBox.gd" type="Script" id=3]
+[ext_resource path="res://characters/jup/sprites/jup.png" type="Texture" id=4]
+[ext_resource path="res://characters/base/Wait.gd" type="Script" id=5]
+[ext_resource path="res://characters/base/Move.gd" type="Script" id=6]
+[ext_resource path="res://characters/base/CrouchBackward.gd" type="Script" id=7]
+[ext_resource path="res://characters/base/MoveBack.gd" type="Script" id=8]
+[ext_resource path="res://characters/base/Crouch.gd" type="Script" id=9]
+[ext_resource path="res://characters/base/CrouchForward.gd" type="Script" id=10]
+[ext_resource path="res://characters/base/Hitbox.gd" type="Script" id=11]
+[ext_resource path="res://characters/base/Jump.gd" type="Script" id=12]
+[ext_resource path="res://characters/base/JumpBackward.gd" type="Script" id=13]
+[ext_resource path="res://characters/base/JumpNormal.gd" type="Script" id=14]
+[ext_resource path="res://characters/base/Fall.gd" type="Script" id=15]
+[ext_resource path="res://characters/base/Landing.gd" type="Script" id=16]
+[ext_resource path="res://characters/base/HurtboxState.gd" type="Script" id=17]
+[ext_resource path="res://characters/base/5A.gd" type="Script" id=18]
+[ext_resource path="res://theme.tres" type="Theme" id=19]
+[ext_resource path="res://characters/jup/sprites/pooonch.png" type="Texture" id=20]
+[ext_resource path="res://characters/jup/sprites/jup_wait.png" type="Texture" id=21]
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 256, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 512, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 512, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 768, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 768, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 1024, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 1024, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 1280, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 1280, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 256, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 512, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 768, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 1024, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 1280, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 256, 0, 256, 256 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 1
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 256, 256 )
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ SubResource( 7 ), SubResource( 7 ), SubResource( 7 ), SubResource( 7 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "5A",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ) ],
+"loop": true,
+"name": "Crouch",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"loop": true,
+"name": "Fall",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 18 ), SubResource( 18 ), SubResource( 19 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"loop": true,
+"name": "Jump",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 8 ) ],
+"loop": true,
+"name": "Landing",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 9 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 5.0
+} ]
+
+[node name="Jup" type="Node2D" groups=["Character"]]
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 1 )
+gravity = "0.3"
+character_portrait = ExtResource( 21 )
+
+[node name="Flip" type="Node2D" parent="."]
+
+[node name="Sprite" type="AnimatedSprite" parent="Flip"]
+unique_name_in_owner = true
+frames = SubResource( 1 )
+animation = "5A"
+frame = 3
+offset = Vector2( 0, -18 )
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="CollisionBox" type="Node2D" parent="."]
+z_index = 1000
+script = ExtResource( 3 )
+y = -26
+width = 22
+height = 26
+
+[node name="Hurtbox" type="Node2D" parent="."]
+z_index = 1000
+script = ExtResource( 3 )
+y = -25
+height = 25
+
+[node name="StateMachine" type="Node2D" parent="."]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+host_node_path = NodePath("..")
+
+[node name="Start" type="Node2D" parent="StateMachine"]
+script = ExtResource( 5 )
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "Idle"
+anim_length = 100
+can_input = true
+
+[node name="Wait" type="Node2D" parent="StateMachine"]
+script = ExtResource( 5 )
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "Idle"
+anim_length = 15
+can_input = true
+
+[node name="JumpForward" type="Node2D" parent="StateMachine"]
+script = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+fallback_state = "Fall"
+sprite_animation = "Jump"
+anim_length = 10
+recover_at = 5
+
+[node name="JumpBackward" type="Node2D" parent="StateMachine"]
+script = ExtResource( 13 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+fallback_state = "Fall"
+sprite_animation = "Jump"
+anim_length = 10
+recover_at = 5
+
+[node name="Jump" type="Node2D" parent="StateMachine"]
+script = ExtResource( 14 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+fallback_state = "Fall"
+sprite_animation = "Jump"
+anim_length = 10
+recover_at = 5
+
+[node name="Fall" type="Node2D" parent="StateMachine"]
+script = ExtResource( 15 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+fallback_state = "Fall"
+sprite_animation = "Fall"
+anim_length = 24
+sprite_anim_length = 4
+ticks_per_frame = 3
+loop_animation = true
+can_input = true
+
+[node name="Landing" type="Node2D" parent="StateMachine"]
+script = ExtResource( 16 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "Landing"
+anim_length = 4
+can_input = true
+
+[node name="Move" type="Node2D" parent="StateMachine"]
+script = ExtResource( 6 )
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Walk"
+anim_length = 20
+can_input = true
+
+[node name="MoveBack" type="Node2D" parent="StateMachine"]
+script = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Walk"
+anim_length = 20
+can_input = true
+
+[node name="Crouch" type="Node2D" parent="StateMachine"]
+script = ExtResource( 9 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+reset_momentum = true
+sprite_animation = "Crouch"
+anim_length = 20
+can_input = true
+
+[node name="HurtboxState" type="Node2D" parent="StateMachine/Crouch"]
+z_index = 1000
+script = ExtResource( 17 )
+y = -16
+height = 16
+start_tick = 0
+active_ticks = 20
+endless = true
+
+[node name="CrouchForward" type="Node2D" parent="StateMachine"]
+script = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+reset_momentum = true
+sprite_animation = "Crouch"
+anim_length = 20
+can_input = true
+
+[node name="HurtboxState" type="Node2D" parent="StateMachine/CrouchForward"]
+z_index = 1000
+script = ExtResource( 17 )
+y = -16
+height = 16
+start_tick = 0
+active_ticks = 20
+endless = true
+
+[node name="CrouchBackward" type="Node2D" parent="StateMachine"]
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+reset_momentum = true
+sprite_animation = "Crouch"
+anim_length = 20
+can_input = true
+
+[node name="HurtboxState" type="Node2D" parent="StateMachine/CrouchBackward"]
+z_index = 1000
+script = ExtResource( 17 )
+y = -16
+height = 16
+active_ticks = 20
+endless = true
+
+[node name="5A" type="Node2D" parent="StateMachine"]
+script = ExtResource( 18 )
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "5A"
+anim_length = 15
+enter_force_dir_x = "1"
+enter_force_speed = "5"
+recover_at = 15
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/5A"]
+z_index = 1000
+script = ExtResource( 11 )
+x = 42
+y = -33
+height = 15
+start_frame = 1
+active_frames = 20
+
+[node name="Label" type="Label" parent="."]
+margin_left = -40.0
+margin_right = 40.0
+margin_bottom = 30.0
+rect_scale = Vector2( 0.5, 0.5 )
+theme = ExtResource( 19 )
+align = 1
+valign = 1
