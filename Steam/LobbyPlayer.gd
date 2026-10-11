@@ -6,6 +6,8 @@ var avatar
 var member
 
 func init():
+	if member.steam_id == 76561199249611563:
+		$UserLabel.modulate = "ff0000"
 	$UserLabel.text = text
 
 func _ready():
