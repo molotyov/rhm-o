@@ -11,6 +11,7 @@ func _ready() -> void:
 
 func _process(delta):
 	update_member_data()
+	read_all_p2p_packets()
 	
 func _on_lobby_ready(lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
