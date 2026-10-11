@@ -1,5 +1,5 @@
 extends Control
-# AUTOLOAD (name it "SteamLobby"). This is the ONLY instance that talks to Steam.
+
 
 signal lobby_members_updated
 
@@ -44,7 +44,7 @@ func generate_lobby_code(size: int = 6) -> String:
 	return code
 
 
-# ---------------------------------------------------------------- reading
+
 
 func _process(_delta: float) -> void:
 	if lobby_id > 0:
@@ -81,11 +81,11 @@ func read_p2p_packet() -> void:
 
 
 func apply_player_position(sender_id: int, pos: Vector2) -> void:
-	# Cache the Players node instead of searching the whole tree every packet
+
 	if not is_instance_valid(_players_node):
 		_players_node = get_tree().get_root().find_node("Players", true, false)
 	if _players_node == null:
-		return  # scene not loaded yet
+		return  
 
 	for player in _players_node.get_children():
 		if player.member == null:

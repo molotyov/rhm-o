@@ -1,7 +1,7 @@
 extends BaseObj
 
 
-
+var goonslime
 var member
 
 var player_data: Dictionary = {

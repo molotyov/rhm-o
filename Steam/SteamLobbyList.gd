@@ -17,7 +17,7 @@ func _on_lobby_joined_confirmed(this_lobby_id: int, _permissions: int, _locked: 
 func _on_lobby_match_list(these_lobbies: Array) -> void:
 	for this_lobby in these_lobbies:
 		var lobby_num_members: int = Steam.getNumLobbyMembers(this_lobby)
-		var lobby_name = Steam.getLobbyData(this_lobby, "host_name")  # ✅ fixed
+		var lobby_name = Steam.getLobbyData(this_lobby, "host_name") 
 		var lobby_button: Button = Button.new()
 		lobby_button.set_text("%s's Lobby [%s] Player(s)" % [lobby_name, lobby_num_members])
 		lobby_button.set_size(Vector2(40, 20))
