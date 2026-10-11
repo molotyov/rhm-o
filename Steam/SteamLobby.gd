@@ -70,7 +70,7 @@ func _process(delta):
 		read_p2p_packet()
 
 func create_lobby() -> void:
-	print("??")
+
 	if lobby_id == 0:
 		Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, lobby_members_max)
 	else:
@@ -114,7 +114,7 @@ func _on_open_lobby_list_pressed() -> void:
 func join_lobby(this_lobby_id: int) -> void:
 	print("Attempting to join lobby %s" % lobby_id)
 
-	# Clear any previous lobby members lists, if you were in a previous lobby
+
 	lobby_members.clear()
 
 
@@ -239,7 +239,7 @@ func read_p2p_packet() -> void:
 	if typeof(readable_data) != TYPE_DICTIONARY:
 		return
 
-	print("Packet from ", packet_sender, ": ", readable_data)
+
 
 	match readable_data.get("type", ""):
 		"pos":
@@ -256,9 +256,15 @@ func read_p2p_packet() -> void:
 
 
 func apply_player_position(sender_id: int, pos: Vector2) -> void:
+	
+
+	
 	var players_node = get_tree().get_root().find_node(
 		"Players", true, false
 	)
+	
+	for player in players_node.get_children():
+		print("Character: ", player.name, " Member: ", player.member)
 
 	if players_node == null:
 		return
@@ -277,6 +283,7 @@ func apply_player_position(sender_id: int, pos: Vector2) -> void:
 		if player_id == sender_id:
 			player.global_position = pos
 			return
+			
 
 
 func _on_p2p_session_request(remote_id: int) -> void:

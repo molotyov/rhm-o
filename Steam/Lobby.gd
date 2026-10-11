@@ -37,9 +37,9 @@ func add_lobby_members() -> void:
 		$"%GridContainer".add_child(user)
 
 		print(member_data["steam_name"])
-
-		if not SteamLobby.lobby_users.has(member_data):
-			SteamLobby.lobby_users.append(member_data)
+#
+#		if not SteamLobby.lobby_users.has(member_data):
+		SteamLobby.lobby_users.append(member_data)
 
 	for child in $"%GridContainer".get_children():
 		child.update_avatar()

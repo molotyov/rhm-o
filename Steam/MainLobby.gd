@@ -28,9 +28,9 @@ func _on_lobby_member_added():
 			else:
 				player_steam_id = int(player.member)
 
-			if player_steam_id == int(member["steam_id"]):
-				already_exists = true
-				break
+#			if player_steam_id == int(member["steam_id"]):
+#				already_exists = true
+#				break
 
 		if already_exists:
 			continue
