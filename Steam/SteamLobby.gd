@@ -219,27 +219,65 @@ func send_p2p_packet(this_target: int, packet_data: Dictionary) -> void:
 		Steam.sendP2PPacket(this_target, this_data, send_type, channel)
 
 
+
 func read_p2p_packet() -> void:
 	var packet_size: int = Steam.getAvailableP2PPacketSize(0)
 
-	# There is a packet
-	if packet_size > 0:
-		var this_packet: Dictionary = Steam.readP2PPacket(packet_size, 0)
+	if packet_size <= 0:
+		return
 
-		if this_packet.empty() or this_packet == null:
-			print("WARNING: read an empty packet with non-zero size!")
+	var packet: Dictionary = Steam.readP2PPacket(packet_size, 0)
 
-		# Get the remote user's ID
-		var packet_sender: int = this_packet['steam_id_remote']
+	if packet.empty():
+		print("WARNING: Received an empty P2P packet!")
+		return
 
-		# Make the packet data readable
-		var packet_code: PoolByteArray = this_packet['data']
-		var readable_data: Dictionary = bytes2var(packet_code)
+	var packet_sender: int = int(packet["steam_id_remote"])
+	var packet_code: PoolByteArray = packet["data"]
+	var readable_data = bytes2var(packet_code)
 
-		# Print the packet to output
-		print("Packet: %s" % readable_data)
+	if typeof(readable_data) != TYPE_DICTIONARY:
+		return
 
-		# Append logic here to deal with packet data
+	print("Packet from ", packet_sender, ": ", readable_data)
+
+	match readable_data.get("type", ""):
+		"pos":
+			var pos = Vector2(
+				float(readable_data.get("x", 0.0)),
+				float(readable_data.get("y", 0.0))
+			)
+
+			apply_player_position(packet_sender, pos)
+
+		_:
+			if readable_data.get("message", "") == "handshake":
+				print("Handshake received from: ", packet_sender)
+
+
+func apply_player_position(sender_id: int, pos: Vector2) -> void:
+	var players_node = get_tree().get_root().find_node(
+		"Players", true, false
+	)
+
+	if players_node == null:
+		return
+
+	for player in players_node.get_children():
+		if player.member == null:
+			continue
+
+		var player_id: int = 0
+
+		if typeof(player.member) == TYPE_DICTIONARY:
+			player_id = int(player.member.get("steam_id", 0))
+		else:
+			player_id = int(player.member)
+
+		if player_id == sender_id:
+			player.global_position = pos
+			return
+
 
 func _on_p2p_session_request(remote_id: int) -> void:
 	# Get the requester's name
