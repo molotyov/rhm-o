@@ -1,12 +1,12 @@
-extends "res://Steam/SteamLobby.gd"
+extends Control
 
 signal joined_lobby_success()
 signal new_player_joined()
 
 func _ready() -> void:
 	$"%CreateLobbyButton".connect("pressed", self, "_on_create_lobby_button_pressed")
-	# ✅ wait for Steam to confirm join
 	Steam.connect("lobby_joined", self, "_on_lobby_joined_confirmed")
+	Steam.connect("lobby_match_list", self, "_on_lobby_match_list")
 
 func _on_lobby_joined_confirmed(this_lobby_id: int, _permissions: int, _locked: bool, response: int) -> void:
 	if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
@@ -38,5 +38,5 @@ func _on_create_lobby_button_pressed():
 
 func _on_RefreshLobby_pressed():
 	clear_lobby_list()
-	request_lobby_list()
+	SteamLobby.request_lobby_list()
 	pass
